@@ -1,1 +1,1 @@
-### Assigments for the Robot Autonomy Course 16662!
+### Assignments for 16-662 Robot Autonomy, Spring 2024 
