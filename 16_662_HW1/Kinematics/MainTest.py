@@ -7,6 +7,7 @@ mybot = Franka.FrankArm()
 # Compute forward kinematics
 deg_to_rad = np.pi/180.
 
+#example: [0., -45.*deg_to_rad, 0., -90.*deg_to_rad, 0., 90.*deg_to_rad, 0.]
 joint_targets = [[0., 0., 0., 0., 0., 0., 0.],
                  [0, 0, -45.*deg_to_rad, -15.*deg_to_rad, 20. *
                      deg_to_rad, 15.*deg_to_rad, -75.*deg_to_rad],
@@ -25,7 +26,6 @@ for joint_target in joint_targets:
     print(pos_ee)
     print('computed FK ee rotation')
     print(rot_ee)
-
 
 # Compute inverse kinematics
 qInit = [0, 0, 0, -2.11, 0, 3.65, -0.785]
