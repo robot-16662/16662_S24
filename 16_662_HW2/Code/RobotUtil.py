@@ -39,7 +39,7 @@ def R2axisang(R):
 
 def BlockDesc2Points(H, Dim):
     center = H[0:3,3]
-    axes=[ H[0:3,0],H[0:3,1],H[0:3,2]]	
+    axes = [H[0:3,0],H[0:3,1],H[0:3,2]]	
  
     # find corners of the bounding box 3d using dimemsions and axes
     corners=[center,
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     for i in range(len(test_origins)):
         Hi = rpyxyz2H(test_ori[i], test_origins[i])
         pts_i, ax_i = BlockDesc2Points(Hi, test_dims[i])
-        ans_i = CheckBoxBoxCollision(ref_bbox_pts, ref_bbox_axis, pts_i, ax_i)
+        ans_i = CheckBoxBoxCollision(np.array(ref_bbox_pts), np.array(ref_bbox_axis), np.array(pts_i), np.array(ax_i))
         print("Collision between block", i, "and given test block:\t", ans_i)  
 
 
