@@ -69,8 +69,7 @@ def CheckPointOverlap(pointsA, pointsB, axis):
     """
     # TODO: Project both set of points on the axis and check for overlap
 
-    return False
-
+    raise NotImplementedError
 
 def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
     """
@@ -92,12 +91,10 @@ def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
     #Hint: Use CheckPointOverlap() function to check for overlap along each axis
     
     #TODO: Check if cuboids collide along the surface normal of box A 
-
     #TODO: Check if cuboids collide along the surface normal of box B
-
     #TODO: Check for edge-edge collisions
 
-    return True
+    raise NotImplementedError
 
 if __name__ == "__main__":
     # Run Test Cases
