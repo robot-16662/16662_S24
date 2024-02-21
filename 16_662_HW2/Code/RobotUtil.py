@@ -67,18 +67,35 @@ def CheckPointOverlap(pointsA, pointsB, axis):
         - overlap: boolean indicating if there is overlap
     
     """
-    # TODO: check if sets of points projected on axis are overlapping
+    # TODO: Project both set of points on the axis and check for overlap
 
     return False
 
 
-def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):	
-    #Sphere check
+def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
+    """
+    Inputs: 
+        - pointsA: 9x3 array of points of box A
+        - axesA: 3x3 array of axes of box A representing rotation matrix or direction vectors of surface normals
+        - pointsB: 9x3 array of points of box B
+        - axesB: 3x3 array of axes of box B representing rotation matrix or direction vectors of surface normals
     
+    Outputs:
+        - collision: boolean indicating if there is collision
+    """	
+
+    #Sphere check
     if np.linalg.norm(pointsA[0]-pointsB[0])> (np.linalg.norm(pointsA[0]-pointsA[1])+np.linalg.norm(pointsB[0]-pointsB[1])):
         return False
 
-    #TODO - SAT cuboid-cuboid collision check
+    #SAT cuboid-cuboid collision check. 
+    #Hint: Use CheckPointOverlap() function to check for overlap along each axis
+    
+    #TODO: Check if cuboids collide along the surface normal of box A 
+
+    #TODO: Check if cuboids collide along the surface normal of box B
+
+    #TODO: Check for edge-edge collisions
 
     return True
 
