@@ -34,9 +34,20 @@ prmVertices=[] # list of vertices
 prmEdges=[] # adjacency list (undirected graph)
 start = time.time()
 
-# TODO: Create PRM - generate collision-free vertices
-# TODO: Fill in the following function using prmVertices and prmEdges to store the graph. 
-# The code at the end saves the graph into a python pickle file.
+#utility function for checking whether there are collisions along a path
+def check_path(q1, q2, dq_check=0.05):
+    dist = vertice_distance(q1,q2)
+    for i in range(int(dist/dq_check)):
+        q_check = q1 + i * dq_check * (q2 - q1) / dist
+        if mybot.DetectCollision(q_check, pointsObs, axesObs):
+            return False
+    return True
+
+#utility function for distance between two points
+def vertice_distance(point1, point2):
+    return np.sqrt(np.sum(np.square(point1 - point2)))
+
+# Create PRM - generate collision-free vertices
 def PRMGenerator():
     global prmVertices
     global prmEdges
@@ -45,10 +56,26 @@ def PRMGenerator():
     
     pointsObs = np.array(pointsObs)
     axesObs = np.array(axesObs)
+
+    des_vertice_count = 10000
+    vertice_max_neighbor_dist = 1
     
-    while len(prmVertices)<1000:
+    while len(prmVertices) < des_vertice_count:   #until we have our desired number of vertices
         # sample random poses
-        print(len(prmVertices))
+
+        q = np.array(mybot.SampleRobotConfig()) #get a random robot configuration
+        if not mybot.DetectCollision(q, pointsObs, axesObs):    #if the configuration is valid
+            prmVertices.append(q.tolist())  #add the configuration to the number of vertices
+
+            q_neighbors = []
+            for i in range(len(prmVertices) - 1):   #for each vertice in the map
+                if vertice_distance(q, prmVertices[i]) < vertice_max_neighbor_dist: #if the vertice is close enough to be a neighbor
+                    if check_path(q, prmVertices[i]):   #if the path to the the vertice is clear
+                        q_neighbors.append(i)   #make the vertice a neighbor to the new node
+                        prmEdges[i].append(len(prmVertices) - 1)    #make the new node a neighbor to the vertice
+            prmEdges.append(q_neighbors)    #add the new edges to the edges list
+
+        print(len(prmVertices)) #debug statement to ensure the road map is growing
 
     #Save the PRM such that it can be run by PRMQuery.py
     f = open("myPRM.p", 'wb')

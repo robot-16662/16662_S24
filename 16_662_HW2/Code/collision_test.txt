@@ -1,0 +1,8 @@
+Collision between block 0 and given test block:	 False
+Collision between block 1 and given test block:	 False
+Collision between block 2 and given test block:	 True
+Collision between block 3 and given test block:	 True
+Collision between block 4 and given test block:	 True
+Collision between block 5 and given test block:	 False
+Collision between block 6 and given test block:	 True
+Collision between block 7 and given test block:	 True

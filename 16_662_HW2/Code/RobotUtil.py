@@ -67,9 +67,18 @@ def CheckPointOverlap(pointsA, pointsB, axis):
         - overlap: boolean indicating if there is overlap
     
     """
-    # TODO: Project both set of points on the axis and check for overlap
+    A_proj = pointsA @ axis #project all the points in A onto the axis, then get min and max values
+    A_min = np.min(A_proj)
+    A_max = np.max(A_proj)
 
-    raise NotImplementedError
+    B_proj = pointsB @ axis #project all the points in B onto the axis, then get min and max values
+    B_min = np.min(B_proj)
+    B_max = np.max(B_proj)
+
+    if(A_max < B_min or B_max < A_min): #if the projections of A and B have no overlap, return False
+        return False
+    else:   #if they do overlap, return true
+        return True
 
 def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
     """
@@ -81,7 +90,12 @@ def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
     
     Outputs:
         - collision: boolean indicating if there is collision
-    """	
+    """
+
+    pointsA = np.array(pointsA)
+    axesA = np.array(axesA)
+    pointsB = np.array(pointsB)
+    axesB = np.array(axesB)
 
     #Sphere check
     if np.linalg.norm(pointsA[0]-pointsB[0])> (np.linalg.norm(pointsA[0]-pointsA[1])+np.linalg.norm(pointsB[0]-pointsB[1])):
@@ -90,11 +104,26 @@ def CheckBoxBoxCollision(pointsA, axesA, pointsB, axesB):
     #SAT cuboid-cuboid collision check. 
     #Hint: Use CheckPointOverlap() function to check for overlap along each axis
     
-    #TODO: Check if cuboids collide along the surface normal of box A 
-    #TODO: Check if cuboids collide along the surface normal of box B
-    #TODO: Check for edge-edge collisions
-
-    raise NotImplementedError
+    #Check if cuboids collide along the surface normal of box A
+    for i in range(axesA.shape[1]): #for each axis of A (3)
+        overlap = CheckPointOverlap(pointsA, pointsB, axesA[i,:])   #surface normals of A are the axes of A
+        if not overlap:
+            return False
+    #Check if cuboids collide along the surface normal of box B
+    for i in range(axesB.shape[1]): #for each axis of B (3)
+        overlap = CheckPointOverlap(pointsA, pointsB, axesB[i,:])   #surface normals of B are the axes of B
+        if not overlap:
+            return False
+    #Check for edge-edge collisions
+    for i in range(axesA.shape[1]): #for each axis of A (3)
+        for j in range(axesB.shape[1]): #for each axis of B (3)
+            axis = np.cross(axesA[i,:],axesB[j,:])  #get the projextion axis by taking the cross product of the edges
+            if np.sum(np.square(axis)) > 0: #if the cross product is not the zero vector
+                overlap = CheckPointOverlap(pointsA, pointsB, axis) #check point overlap using edge x edge axis
+                if not overlap:
+                    return False
+            
+    return True
 
 if __name__ == "__main__":
     # Run Test Cases
