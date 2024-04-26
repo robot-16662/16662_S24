@@ -103,6 +103,7 @@ def InitializePreconditionsAndEffects(nrObjects, nrPredicates, Predicates, Objec
     ActionEff.append(Effect)
     ActionDesc.append("Move to InKitchen from InPantry")
 
+
     ###Cut fruit in kitchen
     for j in [1,2]:
         Precond=np.zeros([nrObjects, nrPredicates])
@@ -201,8 +202,6 @@ x = -1
 
 FoundPath=False
 while len(pq)>0:
-    pass
-    # TODO: Implement Search
     cost, vertex_id = heapq.heappop(pq)
 
     for i in range(len(ActionPre)):
