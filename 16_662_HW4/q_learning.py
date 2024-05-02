@@ -50,7 +50,7 @@ def visualize_agent_run(environment: GridWorld, agent, max_steps_per_episode=100
         cumulative_reward = 0
         while step < max_steps_per_episode:
             environment.render_grid(title=f"Agent {title}, Step {step}, Total Reward: {cumulative_reward}")
-            action = agent.get_action(state)
+            action = agent.get_action(state, explore=False)
             state, reward, done = environment.step(action)
             cumulative_reward += reward        
             step += 1
